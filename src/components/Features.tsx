@@ -2,6 +2,7 @@ import { useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
 import { ArrowRight, Check, Glasses, PackageSearch, BarChart3, type LucideIcon } from 'lucide-react'
 import WordsPullUpMultiStyle from './WordsPullUpMultiStyle'
+import SpaceCanvas from './SpaceCanvas'
 
 const PROJECTS: { title: string; num: string; icon: LucideIcon; href: string; items: string[] }[] = [
   {
@@ -90,29 +91,45 @@ export default function Features() {
           </Card>
 
           {PROJECTS.map((p, i) => (
-            <Card key={p.num} index={i + 1} className="bg-[#212121] p-5 sm:p-6 flex flex-col">
-              <span className="flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-lg border border-white/10 bg-gradient-to-br from-[#2e2e2a] to-[#141414]">
-                <p.icon className="h-5 w-5 sm:h-6 sm:w-6 text-primary" strokeWidth={1.5} />
-              </span>
-              <h3 className="mt-5 text-lg sm:text-xl" style={{ color: '#E1E0CC' }}>
-                {p.title} <span className="text-gray-500 text-sm">({p.num})</span>
-              </h3>
-              <ul className="mt-4 flex flex-col gap-3">
-                {p.items.map((it) => (
-                  <li key={it} className="flex items-start gap-2 text-xs sm:text-sm text-gray-400">
-                    <Check className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
-                    {it}
-                  </li>
-                ))}
-              </ul>
-              <a
-                href={p.href}
-                target="_blank"
-                rel="noreferrer"
-                className="mt-auto pt-6 inline-flex items-center gap-2 text-sm text-primary hover:gap-3 transition-all"
-              >
-                Ver no GitHub <ArrowRight className="h-4 w-4 -rotate-45" />
-              </a>
+            <Card key={p.num} index={i + 1} className="bg-[#111114]">
+              {/* Fundo "espacial": estrelas animadas (cintilam e deslizam devagar, estilo
+                  parallax) + glow de nebulosa sutil, nos mesmos tons do resto do site
+                  (creme/roxo acinzentado), para não brigar com o texto por cima. */}
+              <SpaceCanvas density={60} className="opacity-[0.45]" />
+              <div
+                className="absolute inset-0"
+                style={{
+                  background:
+                    'radial-gradient(ellipse 140% 90% at 85% -15%, rgba(222,219,200,0.08), transparent 55%), ' +
+                    'radial-gradient(ellipse 120% 80% at -10% 115%, rgba(90,80,150,0.28), transparent 60%)',
+                }}
+              />
+              <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-black/35 to-black/70" />
+
+              <div className="relative z-10 flex h-full flex-col p-5 sm:p-6">
+                <span className="flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-lg border border-white/10 bg-gradient-to-br from-[#2e2e2a] to-[#141414]">
+                  <p.icon className="h-5 w-5 sm:h-6 sm:w-6 text-primary" strokeWidth={1.5} />
+                </span>
+                <h3 className="mt-5 text-lg sm:text-xl" style={{ color: '#E1E0CC' }}>
+                  {p.title} <span className="text-gray-500 text-sm">({p.num})</span>
+                </h3>
+                <ul className="mt-4 flex flex-col gap-3">
+                  {p.items.map((it) => (
+                    <li key={it} className="flex items-start gap-2 text-xs sm:text-sm text-gray-400">
+                      <Check className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
+                      {it}
+                    </li>
+                  ))}
+                </ul>
+                <a
+                  href={p.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="mt-auto pt-6 inline-flex items-center gap-2 text-sm text-primary hover:gap-3 transition-all"
+                >
+                  Ver no GitHub <ArrowRight className="h-4 w-4 -rotate-45" />
+                </a>
+              </div>
             </Card>
           ))}
         </div>
